@@ -1,9 +1,16 @@
-class TweetWorker < ActiveRecord::Base
+class TweetWorker 
   include Sidekiq::Worker
 
   def perform(tweet_id)
     tweet = Tweet.find(tweet_id)
     user  = tweet.user
+
+    Twitter.configure do |config|
+      config.oauth_token = user.oauth_token
+      config.oauth_token_secret = user.oauth_secret
+    end
+
+    Twitter.update(tweet.body)
 
     # set up Twitter OAuth client here
     # actually make API call
