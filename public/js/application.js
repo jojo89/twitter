@@ -5,9 +5,22 @@ $(document).ready(function() {
    
      var url = "/tweet";
      var data = $(this).serialize();
-      console.log();
+     
      $.post(url,data,function(response){
-     $(this).append(response);
+     // console.log(response)
+     $.get("/status/"+ response,function(job_status){
+        console.log(job_status)
+        setTimeout(function(){
+          if(job_status.status == true){
+            alert("Your tweet went through");
+          }else if(job_status.status == false){
+            alert("false");
+          }
+        },10000);
+
+
+     },"json");
+     // $(this).append(response);
      
 
 
@@ -16,11 +29,3 @@ $(document).ready(function() {
 });
 
 
-var url = "/status/:job_id";
-var data = $(this).serialize();
-
-$.post(url, data, function(response) {
-  $(this).setTimeout(function(response){
-    url()}
-    ,1000)
-});

@@ -27,11 +27,20 @@ get '/auth' do
 end
 
 get '/status/:job_id' do
-  if request.xhr?
-    erb :success, layout: false
-  else
-    erb :error
-  end
+
+
+  job_status = job_is_complete(params[:job_id])
+ 
+  # content_type: "json"
+  {status: job_status}.to_json
+
+  # find(params[:job_id])
+  # if request.xhr?
+  #   erb :index, layout: false
+  # else
+  #   erb :index
+  #   @error = "Your tweet wasn't posted"
+  # end
 end
 
 
@@ -43,15 +52,12 @@ post '/tweet' do
     config.oauth_token = user.oauth_token
     config.oauth_token_secret = user.oauth_secret
   end
- p job_is_complete(user.tweet(params[:tweet]))
+   @status = user.tweet(params[:tweet])
 
 
   # @tweet = Twitter.update(params[:tweet])
-  if request.xhr?
-    erb :thankyou, layout: false
-  else
-    erb :thankyou
-  end
+ # redirect to "/status/#{@status.id}"
+
 end
 
 
