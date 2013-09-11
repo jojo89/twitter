@@ -36,7 +36,6 @@ post '/tweet' do
   end
 
 
-
   @tweet = Twitter.update(params[:tweet])
   if request.xhr?
     erb :thankyou, layout: false
