@@ -27,7 +27,11 @@ get '/auth' do
 end
 
 get '/status/:job_id' do
-  # return the status of a job to an AJAX call
+  if request.xhr?
+    erb :success, layout: false
+  else
+    erb :error
+  end
 end
 
 
@@ -39,9 +43,10 @@ post '/tweet' do
     config.oauth_token = user.oauth_token
     config.oauth_token_secret = user.oauth_secret
   end
+ p job_is_complete(user.tweet(params[:tweet]))
 
 
-  @tweet = Twitter.update(params[:tweet])
+  # @tweet = Twitter.update(params[:tweet])
   if request.xhr?
     erb :thankyou, layout: false
   else

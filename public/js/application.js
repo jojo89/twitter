@@ -14,3 +14,13 @@ $(document).ready(function() {
      })
   });
 });
+
+
+var url = "/status/:job_id";
+var data = $(this).serialize();
+
+$.post(url, data, function(response) {
+  $(this).setTimeout(function(response){
+    url()}
+    ,1000)
+});
